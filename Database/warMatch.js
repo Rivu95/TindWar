@@ -13,14 +13,14 @@ pool.on('error', (err, client) => {
 module.exports.addClan = async function (clan_tag, search_time, interval, server_id) {
     const query_string = `INSERT INTO war_match
 	(clan_tag,  search_time,  entry_time,  search_end_time, server_id)
-    VALUES ($1, $2, NOW(), NOW() + interval ${interval} hours, $3)`;
+    VALUES ($1, $2, NOW(), NOW() + interval '${interval} hour', $3)`;
 
     const values = [clan_tag, search_time, server_id];
 
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(err.message);
+        console.log(`addClan - ${err.message}`);
     }
 }
 
@@ -37,7 +37,7 @@ module.exports.getClan = async function (clan_tag) {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        console.log(err.message);
+        console.log(`getClan - ${err.message}`);
     }
 }
 
@@ -53,7 +53,7 @@ module.exports.getAll = async function () {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        console.log(err.message);
+        console.log(`getAll - ${err.message}`);
     }
 }
 
@@ -67,7 +67,7 @@ module.exports.deleteClanByServer = async function (server_id) {
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(err.message);
+        console.log(`deleteClanByServer - ${err.message}`);
     }
 }
 
@@ -81,6 +81,6 @@ module.exports.deleteClanByTime = async function () {
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(err.message);
+        console.log(`deleteClanByTime - ${err.message}`);
     }
 }

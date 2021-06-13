@@ -13,7 +13,7 @@ pool.on('error', (err, client) => {
 module.exports.addServer = async function (server_id, team_name, clan_tag, clan_name, representative, seerver_invite, regisered_by, channel_id) {
     const query_string = `INSERT INTO server_clan_registry
 	(server_id,  team_name,  clan_tag,  clan_name,  representative_id,  server_invite,  registered_by,  register_time, channel_id) 
-	VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()), $8
+	VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), $8)
     ON CONFLICT (server_id) 
 	DO UPDATE SET 
 	team_name = $2,
@@ -22,7 +22,7 @@ module.exports.addServer = async function (server_id, team_name, clan_tag, clan_
     representative_id = $5,  
     server_invite = $6,  
     registered_by = $7,  
-    register_time = NOW()
+    register_time = NOW(),
     channel_id = $8`;
 
     const values = [server_id, team_name, clan_tag, clan_name, representative, seerver_invite, regisered_by, channel_id];
@@ -30,25 +30,25 @@ module.exports.addServer = async function (server_id, team_name, clan_tag, clan_
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        return false;
         console.log(err.message);
+        return false;
     }
 }
 
 // for clan change by Admin 
-module.exports.updateServer = async function (server_id, team_name, clan_tag, clan_name, representative, seerver_invite, regisered_by, channel_id) {
+module.exports.updateServer = async function (server_id, clan_tag, clan_name) {
     const query_string = `UPDATE server_clan_registry
-	SET clan_tag = $3,  
-        clan_name = $4
+	SET clan_tag = $2,  
+        clan_name = $3,
     WHERE server_id = $1`;
 
-    const values = [server_id, team_name, clan_tag, clan_name, representative, seerver_invite, regisered_by, channel_id];
+    const values = [server_id, clan_tag, clan_name];
 
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        return false;
         console.log(err.message);
+        return false;
     }
 }
 
@@ -63,8 +63,8 @@ module.exports.getServer = async function (server_id) {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        return false;
         console.log(err.message);
+        return false;
     }
 }
 
@@ -79,8 +79,8 @@ module.exports.getServerByClan = async function (clan_tag) {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        return false;
         console.log(err.message);
+        return false;
     }
 }
 
@@ -95,5 +95,6 @@ module.exports.deleteServer = async function (server_id) {
         const res = await pool.query(query_string, values);
     } catch (err) {
         console.log(err.message);
+        return false;
     }
 }
