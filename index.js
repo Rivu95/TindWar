@@ -8,22 +8,22 @@ const client = new Client({ ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_M
 client.cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
-	console.log('I am Ready');
-	client.user.setActivity("+help", { type: "LISTENING" });
+	console.log('Tindwar is online!')
+	client.user.setActivity("slash commands", { type: "LISTENING" });
 });
 
 //------------------------------- Interaction Handler -------------------------------//
-const Interaction = require("./interactions/INTERACTION_CREATE");
+const Interaction = require("./Interactions/Interaction_create");
 client.ws.on('INTERACTION_CREATE', async interaction => {
 	Interaction.run(client, interaction);
 })
 
 client.interactions = new Discord.Collection();
-fs.readdir("./slash Commands", (err, files) => {
+fs.readdir("./slash_commands", (err, files) => {
 	if (err) return console.error(err);
 	files.forEach(file => {
 		if (!file.endsWith(".js")) return;
-		let props = require(`./slash Commands/${file}`);
+		let props = require(`./slash_commands/${file}`);
 		let interactionName = file.split(".")[0];
 		console.log(`Attempting to load slashes ${interactionName}`);
 		client.interactions.set(interactionName, props);
@@ -72,12 +72,14 @@ for (const folder of commandFolders) {
 
 //------------------------------- Error Logging -------------------------------//
 process.on("unhandledRejection", error => {
-	console.error("Unhandled promise rejection:", error);
+	console.log(error);
 });
 
 //------------------------------- Logging In -------------------------------//
-client.login(process.env.bot_token);
+client.login(process.env.BOT_TOKEN);
 
-
+// ------------------------------- CoC package -------------------------------//
+const coc = require("./utils/coc")
+client.coc = coc.client;
 
 //------------------------------- Cron Job Handler -------------------------------//
