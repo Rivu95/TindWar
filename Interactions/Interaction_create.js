@@ -1,4 +1,6 @@
 
+const chalk = require('chalk');
+
 module.exports.run = async (client, interaction) => {
 
     const date = new Date();
@@ -11,9 +13,9 @@ module.exports.run = async (client, interaction) => {
         const slash = client.interactions.get(interaction.data.name);
 
         await slash.run(client, interaction, interaction.data.options);
-        console.log(`>> ${date.toUTCString()}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}-${interaction.data.name}`);
+        console.log(`>> ${chalk.blue(date.toUTCString())}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}-${chalk.green(interaction.data.name)}`);
     } catch (error) {
-        console.log(`>> ${date.toUTCString()}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}-${interaction.data.name}
+        console.log(`>> ${chalk.red(date.toUTCString())}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}-${chalk.red(interaction.data.name)}
         -----------------------------------------\n${error.message}`);
     }
     return;

@@ -1,5 +1,6 @@
 const { Pool, Client } = require('pg');
 require('dotenv').config();
+const chalk = require('chalk');
 
 const connectionString = process.env.DB_URL
 const pool = new Pool({ connectionString: connectionString, })
@@ -30,7 +31,7 @@ module.exports.addServer = async function (server_id, team_name, clan_tag, clan_
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(err.message);
+        console.log(`${chalk.red("addServer")} - ${err.message}`);
         return false;
     }
 }
@@ -47,7 +48,7 @@ module.exports.updateServer = async function (server_id, clan_tag, clan_name) {
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(err.message);
+        console.log(`${chalk.red("updateServer")} - ${err.message}`);
         return false;
     }
 }
@@ -63,7 +64,7 @@ module.exports.getServer = async function (server_id) {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        console.log(err.message);
+        console.log(`${chalk.red("getServer")} - ${err.message}`);
         return false;
     }
 }
@@ -79,7 +80,7 @@ module.exports.getServerByClan = async function (clan_tag) {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        console.log(err.message);
+        console.log(`${chalk.red("getServerByClan")} - ${err.message}`);
         return false;
     }
 }
@@ -94,7 +95,7 @@ module.exports.deleteServer = async function (server_id) {
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(err.message);
+        console.log(`${chalk.red("deleteServer")} - ${err.message}`);
         return false;
     }
 }

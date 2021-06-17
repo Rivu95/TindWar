@@ -39,7 +39,7 @@ module.exports.run = async (client, interaction, options) => {
         // message that will go in wait list clan's server
         const target_channel = client.channels.cache.get(wait_list.channel_id);
         const target_channel_embed = new Discord.MessageEmbed()
-            .setColor()
+            .setColor("#65ff01")
             .setTitle("Match Found!")
             .setDescription(`**Team - ${issue_server.team_name}**\n**Clan - [${issue_server.clan_name}-${issue_server.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
             .addField("__Server Invite__", issue_server.server_invite)
@@ -50,7 +50,7 @@ module.exports.run = async (client, interaction, options) => {
 
         // message that will go in command issuer's channel
         const issuer_embed = new Discord.MessageEmbed()
-            .setColor()
+            .setColor("#65ff01")
             .setTitle("Match Found!")
             .setDescription(`**Team - ${wait_list.team_name}**\n**Clan - [${wait_list.clan_name}-${wait_list.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
             .addField("__Server Invite__", wait_list.server_invite)
@@ -78,7 +78,7 @@ module.exports.run = async (client, interaction, options) => {
 
         // sending the wait message
         const embed = new Discord.MessageEmbed()
-            .setColor("#ff0000")
+            .setColor("#ffd700")
             .setTitle("No Clan is waiting for a match-up. I have put your entry as waiting, as soon as another clan searches for war i will match you up!");
 
         return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({

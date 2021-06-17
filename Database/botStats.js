@@ -1,5 +1,6 @@
 const { Pool, Client } = require('pg');
 require('dotenv').config();
+const chalk = require('chalk');
 
 const connectionString = process.env.DB_URL
 const pool = new Pool({ connectionString: connectionString, })
@@ -33,7 +34,7 @@ module.exports.updateStats = async function (type) {
     try {
         const res = await pool.query(query_string, values);
     } catch (err) {
-        console.log(`updateStats - ${err.message}`);
+        console.log(`${chalk.red("updateStats")} - ${err.message}`);
     }
 }
 
@@ -48,6 +49,6 @@ module.exports.getStats = async function () {
         const res = await pool.query(query_string, values);
         return res.rows[0];
     } catch (err) {
-        console.log(`getStats - ${err.message}`);
+        console.log(`${chalk.red("getStats")} - ${err.message}`);
     }
 }

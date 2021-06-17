@@ -70,7 +70,7 @@ module.exports.run = async (client, interaction, options) => {
     const server = await DB.getServer(interaction.guild_id);
     if (server) {
         const embed = new Discord.MessageEmbed()
-            .setColor()
+            .setColor("#65ff01")
             .setTitle("Changing Previous Registration")
             .setDescription(`**__Previously Registered__**\n\`\`\`\nClan: ${server.clan_name} - ${server.clan_tag}\nRepresentative: ${server.representative_id}\nServer Invite: ${server.server_invite}\`\`\``)
             .addField("Current Registration", `**\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${options[3].value}\`\`\`**`)
@@ -88,7 +88,7 @@ module.exports.run = async (client, interaction, options) => {
         await statsDB.updateStats("server add");
 
         const embed = new Discord.MessageEmbed()
-            .setColor()
+            .setColor("#65ff01")
             .setTitle("Successfully Registered")
             .setDescription(`**__Current Registration__\n\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${options[3].value}\`\`\`**`)
             .setThumbnail()

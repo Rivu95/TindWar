@@ -7,7 +7,7 @@ module.exports.run = async (client, interaction, options) => {
     const stats = await statsDB.getStats();
 
     const embed = new Discord.MessageEmbed()
-        .setColor()
+        .setColor("#00ffff")
         .setTitle("Bot Stats")
         .setDescription(`**Team Saved:** \`${stats.server_count}\`\n**War Mathed:** \`${stats.war_matched}\``)
         .addField("Matches Possible", `14v14 ESL type`)
