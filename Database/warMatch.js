@@ -2,7 +2,7 @@ const { Pool, Client } = require('pg');
 require('dotenv').config();
 
 const connectionString = process.env.DB_URL
-const pool = new Pool({connectionString: connectionString,})
+const pool = new Pool({ connectionString: connectionString, })
 
 pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
@@ -59,7 +59,7 @@ module.exports.getAll = async function () {
 
 // deleting once the clan is matched
 module.exports.deleteClanByServer = async function (server_id) {
-    const query_string = `DELETE * FROM server_clan_registry
+    const query_string = `DELETE FROM war_match
 	WHERE server_id = $1`;
 
     const values = [server_id];
@@ -73,13 +73,15 @@ module.exports.deleteClanByServer = async function (server_id) {
 
 // deleting clan once wait period is over
 module.exports.deleteClanByTime = async function () {
-    const query_string = `DELETE * FROM server_clan_registry
-	WHERE NOW() > search_end_time`;
+    const query_string = `DELETE FROM war_match
+	WHERE NOW() > search_end_time
+    RETURNING *`;
 
     const values = [];
 
     try {
         const res = await pool.query(query_string, values);
+        return res.rows[0];
     } catch (err) {
         console.log(`deleteClanByTime - ${err.message}`);
     }

@@ -83,3 +83,8 @@ const coc = require("./utils/coc")
 client.coc = coc.client;
 
 //------------------------------- Cron Job Handler -------------------------------//
+// deleting waiting list
+const waitListEnd = require("./utils/searchEndScript")
+cron.schedule("*/1 * * * *", async function () {
+	await waitListEnd.run(client);
+});
