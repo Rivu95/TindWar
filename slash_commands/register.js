@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const DB = require("../Database/serverClanData");
 const statsDB = require("../Database/botStats");
+require('dotenv').config();
+const OWNERS = [process.env.OWNER_1, process.env.OWNER_2, process.env.OWNER_3];
 
 module.exports.run = async (client, interaction, options) => {
 
@@ -11,13 +13,13 @@ module.exports.run = async (client, interaction, options) => {
 
     // checking command user perms
     await guild.members.fetch(interaction.member.user.id);
-    if (!guild.members.cache.get(interaction.member.user.id).hasPermission("MANAGE_GUILD")) {
+    if (!guild.members.cache.get(interaction.member.user.id).hasPermission("MANAGE_GUILD") && !OWNERS.includes(interaction.member.user.id)) {
         const error_embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
             .setDescription("Need Manage Server or higher permission for you to use this command!");
 
         return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
-            data: { embeds: [embed] }
+            data: { embeds: [error_embed] }
         });
     }
 
