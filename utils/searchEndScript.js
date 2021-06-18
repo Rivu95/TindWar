@@ -9,7 +9,7 @@ module.exports.run = async function (client) {
     const channel = client.channels.cache.get(server.channel_id);
 
     const embed = new Discord.MessageEmbed()
-        .setColor()
+        .setColor("#ff0000")
         .setTitle("Sorry! No Match Found")
         .setDescription("Use the find-war slash command again to find a match!")
         .setTimestamp();

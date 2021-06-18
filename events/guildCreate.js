@@ -58,6 +58,6 @@ module.exports.run = async (client, guild) => {
             console.log("Could not send message to " + guild.name);
         }
     }
-    log_channel.send("```Bot has joined " + guild.name + " server\nOwner ID: " + guild.ownerID + "\nServer ID: " + guild.id + "```");
+    log_channel.send(`\`\`\`elm\nBot has joined ${guild.name} \nOwner ID: ${guild.ownerID}\nServer ID:${guild.id}\`\`\``);
 
 };

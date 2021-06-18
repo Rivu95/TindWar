@@ -1,4 +1,3 @@
-
 const Discord = require("discord.js");
 const DB = require("../Database/serverClanData");
 const statsDB = require("../Database/botStats");
@@ -10,6 +9,7 @@ module.exports.run = async (client, interaction, options) => {
     const member = await guild.members.fetch(options[2].value);
     const channel = client.channels.cache.get(options[4].value);
 
+    // checking command user perms
     await guild.members.fetch(interaction.member.user.id);
     if (!guild.members.cache.get(interaction.member.user.id).hasPermission("MANAGE_GUILD")) {
         const error_embed = new Discord.MessageEmbed()
@@ -82,7 +82,7 @@ module.exports.run = async (client, interaction, options) => {
         });
     }
 
-    // for first registration
+    // for first time registration
     else {
         await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, member.user.tag, options[3].value, interaction.member.user.id, options[4].value);
         await statsDB.updateStats("server add");
