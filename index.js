@@ -23,10 +23,9 @@ fs.readdir("./slash_commands", (err, files) => {
 	if (err) return console.error(err);
 	files.forEach(file => {
 		if (!file.endsWith(".js")) return;
-		let props = require(`./slash_commands/${file}`);
-		let interactionName = file.split(".")[0];
-		console.log(`Attempting to load slashes ${interactionName}`);
-		client.interactions.set(interactionName, props);
+		let interaction = require(`./slash_commands/${file}`);
+		console.log(`Attempting to load slashes ${interaction.name}`);
+		client.interactions.set(interaction.name, interaction);
 	});
 });
 

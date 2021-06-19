@@ -1,14 +1,20 @@
 const Discord = require("discord.js");
 const serverDB = require("../Database/serverClanData");             // server-clan database
 const warMatchDB = require("../Database/warMatch");                 // wait list/ war-match Database
-const statsDB = require("../Database/botStats");
-const historyDB = require("../Database/warHistory");
+const statsDB = require("../Database/botStats");                    // Bot Stats Databse
+const historyDB = require("../Database/warHistory");                // War History Database
 
-module.exports.run = async (client, interaction, options) => {
+module.exports = {
+    name: "find-war",
+    description: "War Search Command, if a match is not found immidiately bot will place you in a waitlist",
+    helplink: "https://cdn.discordapp.com/attachments/695662581276475523/695662645541470208/clan.png",
+    guildOnly: true
+};
 
-    // getting clan from wait list
+module.exports.run = async (client, interaction, options, guild) => {
+
+    // getting clan from wait list and issue server details
     const wait_list = await warMatchDB.getAll();
-    // getting server details
     const issue_server = await serverDB.getServer(interaction.guild_id);
 
     // if the server isn't registered
@@ -25,8 +31,7 @@ module.exports.run = async (client, interaction, options) => {
     // if there is a clan in wait list
     if (wait_list) {
         // if same server war search twice in a row
-        if (wait_list.clan_tag === issue_server.clan_tag) {
-            // sending the wait message
+        if (wait_list.server_id === interaction.guild_id) {
             const embed = new Discord.MessageEmbed()
                 .setColor("#ff0000")
                 .setTitle("Still No match found!");
@@ -65,18 +70,17 @@ module.exports.run = async (client, interaction, options) => {
             data: { embeds: [issuer_embed] }
         });
 
-        // deleting wait entry
+        // deleting wait entry and upadating stats and history DB
         await warMatchDB.deleteClanByServer(wait_list.server_id);
         await statsDB.updateStats("war match");
         await historyDB.addWar(wait_list.server_id, interaction.guild_id, wait_list.clan_tag, issue_server.clan_tag);
         return;
     }
 
+    // saving the issue in wait list
     else {
-        // saving the issue in wait list
         await warMatchDB.addClan(issue_server.clan_tag, `${options[0].value} hours`, options[0].value, issue_server.server_id);
 
-        // sending the wait message
         const embed = new Discord.MessageEmbed()
             .setColor("#ffd700")
             .setTitle("No Clan is waiting for a match-up. I have put your entry as waiting, as soon as another clan searches for war i will match you up!");
