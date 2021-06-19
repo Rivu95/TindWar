@@ -21,7 +21,11 @@ module.exports.run = async (client, interaction, options, guild) => {
     const issue_guild = client.guilds.cache.get(interaction.guild_id);
     const target_guild = client.guilds.cache.get(wait_list?.server_id);
     const issuer_representative = await issue_guild.members.fetch(issue_server.representative_id);
+<<<<<<< Updated upstream
     const target_representative = await target_guild.members.fetch(wait_list?.representative_id);
+=======
+    const target_representative = await target_guild?.members.fetch(wait_list?.representative_id);
+>>>>>>> Stashed changes
 
     // if the server isn't registered
     if (!issue_server) {
