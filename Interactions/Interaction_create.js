@@ -30,7 +30,7 @@ module.exports.run = async (client, interaction) => {
         await slash.run(client, interaction, interaction.data.options, guild);
         console.log(`>> ${chalk.green(date.toUTCString())}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}: ${chalk.green(interaction.data.name)}`);
     } catch (error) {
-        console.log(`${chalk.red(ERROR)}: ${chalk.green(date.toUTCString())}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}: ${chalk.red(interaction.data.name)}\n${error.message}`);
+        console.log(`${chalk.red("ERROR")}: ${chalk.green(date.toUTCString())}-${interaction.guild_id}: ${interaction.member.user.username}#${interaction.member.user.discriminator}: ${chalk.red(interaction.data.name)}\n${error.message}`);
     }
     return;
 }

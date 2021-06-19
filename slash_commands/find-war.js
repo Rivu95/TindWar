@@ -17,6 +17,12 @@ module.exports.run = async (client, interaction, options, guild) => {
     const wait_list = await warMatchDB.getAll();
     const issue_server = await serverDB.getServer(interaction.guild_id);
 
+    // getting the guilds and representatives
+    const issue_guild = client.guilds.cache.get(interaction.guild_id);
+    const target_guild = client.guilds.cache.get(wait_list?.server_id);
+    const issuer_representative = await issue_guild.members.fetch(issue_server.representative_id);
+    const target_representative = await target_guild.members.fetch(wait_list?.representative_id);
+
     // if the server isn't registered
     if (!issue_server) {
         const embed = new Discord.MessageEmbed()
@@ -48,7 +54,7 @@ module.exports.run = async (client, interaction, options, guild) => {
             .setTitle("Match Found!")
             .setDescription(`**Team - ${issue_server.team_name}**\n**Clan - [${issue_server.clan_name}-${issue_server.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
             .addField("__Server Invite__", issue_server.server_invite)
-            .addField("__Representative__", issue_server.representative_id)
+            .addField("__Representative__", issuer_representative.user.tag)
             .addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
             .setThumbnail()
             .setTimestamp();
@@ -59,7 +65,7 @@ module.exports.run = async (client, interaction, options, guild) => {
             .setTitle("Match Found!")
             .setDescription(`**Team - ${wait_list.team_name}**\n**Clan - [${wait_list.clan_name}-${wait_list.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
             .addField("__Server Invite__", wait_list.server_invite)
-            .addField("__Representative__", wait_list.representative_id)
+            .addField("__Representative__", target_representative.user.tag)
             .addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
             .setThumbnail()
             .setTimestamp();

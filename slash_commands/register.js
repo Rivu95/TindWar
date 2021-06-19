@@ -1,3 +1,4 @@
+// 852455462275907634
 const Discord = require("discord.js");
 const DB = require("../Database/serverClanData");
 const statsDB = require("../Database/botStats");
@@ -14,7 +15,8 @@ module.exports.run = async (client, interaction, options, guild) => {
 
     const clan_tag = client.coc.parseTag(options[1].value, false);
     const member = await guild.members.fetch(options[2].value);
-    const channel = client.channels.cache.get(options[4].value);
+    const channel = client.channels.cache.get(options[3].value);
+    const server_invite = options[4]?.value ?? "Contact Representative";
     const error_embed = new Discord.MessageEmbed().setColor("#ff0000");
 
     // checking if the clan is claimed by any other server
@@ -63,10 +65,10 @@ module.exports.run = async (client, interaction, options, guild) => {
             .setColor("#65ff01")
             .setTitle("Changing Previous Registration")
             .setDescription(`**__Previously Registered__**\n\`\`\`\nClan: ${server.clan_name} - ${server.clan_tag}\nRepresentative: ${server.representative_id}\nServer Invite: ${server.server_invite}\`\`\``)
-            .addField("Current Registration", `**\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${options[3].value}\`\`\`**`)
+            .addField("Current Registration", `**\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${server_invite}\`\`\`**`)
             .setTimestamp();
 
-        await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, member.user.tag, options[3].value, interaction.member.user.id, options[4].value);
+        await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, options[2].value, server_invite, interaction.member.user.id, options[3].value);
         return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
             data: { embeds: [embed] }
         });
@@ -74,13 +76,13 @@ module.exports.run = async (client, interaction, options, guild) => {
 
     // for first time registration
     else {
-        await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, member.user.tag, options[3].value, interaction.member.user.id, options[4].value);
+        await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, options[2].value, server_invite, interaction.member.user.id, options[3].value);
         await statsDB.updateStats("server add");
 
         const embed = new Discord.MessageEmbed()
             .setColor("#65ff01")
             .setTitle("Successfully Registered")
-            .setDescription(`**__Current Registration__\n\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${options[3].value}\`\`\`**`)
+            .setDescription(`**__Current Registration__\n\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${server_invite}\`\`\`**`)
             .setThumbnail()
             .setTimestamp();
 

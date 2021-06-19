@@ -16,7 +16,7 @@ module.exports.run = async (client, interaction, options, guild) => {
     const embed = new Discord.MessageEmbed()
         .setColor("#00ffff")
         .setTitle("Bot Stats")
-        .setDescription(`**Teams Saved:** \`${stats.server_count}\`\n**Wars Matched:** \`${stats.war_matched}\``)
+        .setDescription(`**Teams Saved:** ${stats.server_count}\n**Wars Matched:** ${stats.war_matched}\n**Servers**: ${client.guilds.cache.size}`)
         .addField("Matches Possible", `TH-14 5v5 ESL type`)
         .addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
         .setTimestamp()
