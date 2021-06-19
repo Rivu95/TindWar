@@ -1,16 +1,23 @@
 {
-  "name": "tindwar",
-  "version": "1.0.0",
-  "description": "Friendly war, friendly challenge finder",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Rivu and bradders",
-  "license": "ISC",
-  "dependencies": {
-    "clashofclans.js": "^1.4.1",
-    "discord.js": "^12.5.3",
-    "pg": "^8.6.0"
-  }
+	"name": "tindwar",
+	"version": "1.0.0",
+	"description": "Friendly war, friendly challenge finder",
+	"main": "index.js",
+	"scripts": {
+		"test": "eslint --fix --ext .js --ignore-path .gitignore ."
+	},
+	"author": "Rivu and bradders",
+	"license": "ISC",
+	"dependencies": {
+		"clashofclans.js": "^1.4.1",
+		"discord.js": "^12.5.3",
+		"dotenv": "^10.0.0",
+		"long": "^4.0.0",
+		"node-cron": "^3.0.0",
+		"pg": "^8.6.0"
+	},
+	"devDependencies": {
+		"eslint": "^7.29.0",
+		"eslint-config-aqua": "^9.0.2"
+	}
 }

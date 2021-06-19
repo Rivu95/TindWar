@@ -8,5 +8,4 @@ module.exports.run = async (client, guild) => {
 
 	await serverClanDB.deleteServer(guild.id);
 	await waitListDb.deleteClanByServer(guild.id);
-	return;
 };

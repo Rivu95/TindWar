@@ -1,38 +1,38 @@
-const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');
-const fs = require("fs");
 require('dotenv').config();
-const cron = require("node-cron");
 
-const client = new Client({ ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"] } });
+const Discord = require('discord.js');
+const cron = require("node-cron");
+const fs = require("fs");
+
+const client = new Discord.Client({ ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"] } });
 client.cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
-	console.log('Tindwar is online!')
+	console.log('Tindwar is online!');
 	client.user.setActivity("slash commands", { type: "LISTENING" });
 });
 
-//------------------------------- Interaction Handler -------------------------------//
+// ------------------------------- Interaction Handler -------------------------------//
 const Interaction = require("./Interactions/Interaction_create");
-client.ws.on('INTERACTION_CREATE', async interaction => {
+client.ws.on('INTERACTION_CREATE', async (interaction) => {
 	Interaction.run(client, interaction);
-})
+});
 
 client.interactions = new Discord.Collection();
 fs.readdir("./slash_commands", (err, files) => {
 	if (err) return console.error(err);
-	files.forEach(file => {
+	files.forEach((file) => {
 		if (!file.endsWith(".js")) return;
-		let interaction = require(`./slash_commands/${file}`);
+		const interaction = require(`./slash_commands/${file}`);
 		console.log(`Attempting to load slashes ${interaction.name}`);
 		client.interactions.set(interaction.name, interaction);
 	});
 });
 
-//------------------------------- Event Handler -------------------------------//
+// ------------------------------- Event Handler -------------------------------//
 fs.readdir("./events/", (err, files) => {
 	if (err) return console.error(err);
-	files.forEach(file => {
+	files.forEach((file) => {
 		const eventFunction = require(`./events/${file}`);
 		if (eventFunction.disabled) return;
 
@@ -45,45 +45,42 @@ fs.readdir("./events/", (err, files) => {
 
 		try {
 			emitter[once ? "once" : "on"](event, (...args) =>
-				eventFunction.run(client, ...args)
-			);
+				eventFunction.run(client, ...args));
 		} catch (error) {
 			console.error(error.stack);
 		}
 	});
 });
 
-//------------------------------- Command Handler -------------------------------//
+// ------------------------------- Command Handler -------------------------------//
 client.commands = new Discord.Collection();
-let commandFolders = fs
-	.readdirSync("./commands");
+const commandFolders = fs.readdirSync("./commands");
 
 for (const folder of commandFolders) {
-	let commandFiles = fs
-		.readdirSync(`./commands/${folder}`)
-		.filter(file => file.endsWith(".js"));
+	const commandFiles = fs.readdirSync(`./commands/${folder}`)
+		.filter((file) => file.endsWith(".js"));
 
 	for (const file of commandFiles) {
-		let command = require(`./commands/${folder}/${file}`);
+		const command = require(`./commands/${folder}/${file}`);
 		client.commands.set(command.name, command);
 	}
 }
 
-//------------------------------- Error Logging -------------------------------//
-process.on("unhandledRejection", error => {
+// ------------------------------- Error Logging -------------------------------//
+process.on("unhandledRejection", (error) => {
 	console.log(error);
 });
 
-//------------------------------- Logging In -------------------------------//
+// ------------------------------- Logging In -------------------------------//
 client.login(process.env.BOT_TOKEN);
 
 // ------------------------------- CoC package -------------------------------//
-const coc = require("./utils/coc")
+const coc = require("./utils/coc");
 client.coc = coc.client;
 
-//------------------------------- Cron Job Handler -------------------------------//
+// ------------------------------- Cron Job Handler -------------------------------//
 // deleting waiting list
-const waitListEnd = require("./utils/searchEndScript")
-cron.schedule("*/1 * * * *", async function () {
+const waitListEnd = require("./utils/searchEndScript");
+cron.schedule("*/1 * * * *", async () => {
 	await waitListEnd.run(client);
 });

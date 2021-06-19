@@ -1,12 +1,10 @@
-require('dotenv').config();
 module.exports.run = async (client, channel) => {
+	// Incomplete
 
-    let clan = await clandb.getRegisteredChannel(channel.id);
-    let server = await serverdb.getServer(channel.guild.id);
+	/* const clan = await clandb.getRegisteredChannel(channel.id);
+	const server = await serverdb.getServer(channel.guild.id);
+	if (!clan) return;
 
-    if (!clan) {
-        return
-    }
-
-    return console.log(`${channel} with clan has been deleted!`);
-}
+	console.log(`${channel} with clan has been deleted!`);
+	*/
+};
