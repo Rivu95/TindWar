@@ -1,4 +1,4 @@
-const { Client } = require('clashofclans.js');
+const { Client } = require("clashofclans.js");
 
 const coc_client = new Client({
 	token: [process.env.COC_API_TOKEN],

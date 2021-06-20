@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
-const serverDB = require("../Database/serverClanData");             // server-clan database
-const warMatchDB = require("../Database/warMatch");                 // wait list/ war-match Database
-const statsDB = require("../Database/botStats");                    // Bot Stats Databse
-const historyDB = require("../Database/warHistory");                // War History Database
+const serverDB = require("../database/serverClanData");             // server-clan database
+const warMatchDB = require("../database/warMatch");                 // wait list/ war-match Database
+const statsDB = require("../database/botStats");                    // Bot Stats Databse
+const historyDB = require("../database/warHistory");                // War History Database
 
 module.exports = {
 	name: "find-war",
@@ -22,7 +22,7 @@ module.exports.run = async (client, interaction, options, guild) => {
 			.setColor("#ff0000")
 			.setDescription("You **have not** registered any clan or details for this server. First complete that using `register` slash command!");
 
-		return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+		return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 			data: { embeds: [embed] }
 		});
 	}
@@ -35,7 +35,7 @@ module.exports.run = async (client, interaction, options, guild) => {
 				.setColor("#ff0000")
 				.setTitle("Still No match found!");
 
-			return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+			return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 				data: { embeds: [embed] }
 			});
 		}
@@ -65,7 +65,7 @@ module.exports.run = async (client, interaction, options, guild) => {
 
 		// sending the messages
 		target_channel.send(target_channel_embed);
-		client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+		client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 			data: { embeds: [issuer_embed] }
 		});
 
@@ -83,7 +83,7 @@ module.exports.run = async (client, interaction, options, guild) => {
 			.setColor("#ffd700")
 			.setTitle("No Clan is waiting for a match-up. I have put your entry as waiting, as soon as another clan searches for war i will match you up!");
 
-		return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+		return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 			data: { embeds: [embed] }
 		});
 	}

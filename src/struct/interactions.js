@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
-const chalk = require('chalk');
-require('dotenv').config();
+const chalk = require("chalk");
 const OWNERS = [process.env.OWNER_1, process.env.OWNER_2, process.env.OWNER_3];
 
 module.exports.run = async (client, interaction) => {
@@ -19,7 +18,7 @@ module.exports.run = async (client, interaction) => {
 			.setColor("#ff0000")
 			.setDescription(`Need ${slash.permissions} or higher permission for you to use this command!`);
 
-		return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+		return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 			data: { embeds: [error_embed] }
 		});
 	}

@@ -1,6 +1,6 @@
 // 854964973469040640
 const Discord = require("discord.js");
-const statsDB = require("../Database/botStats");
+const statsDB = require("../database/botStats");
 
 module.exports = {
 	name: "stats",
@@ -16,11 +16,11 @@ module.exports.run = async (client, interaction, options, guild) => {
 		.setColor("#00ffff")
 		.setTitle("Bot Stats")
 		.setDescription(`**Teams Saved:** \`${stats.server_count}\`\n**Wars Matched:** \`${stats.war_matched}\``)
-		.addField("Matches Possible", `TH-14 5v5 ESL type`)
+		.addField("Matches Possible", "TH-14 5v5 ESL type")
 		.addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
 		.setTimestamp();
 
-	return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+	return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 		data: { embeds: [embed] }
 	});
 };

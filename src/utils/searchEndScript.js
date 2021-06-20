@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const DB = require("../Database/warMatch");
-const serverClanDB = require("../Database/serverClanData");
+const DB = require("../database/warMatch");
+const serverClanDB = require("../database/serverClanData");
 
 module.exports.run = async (client) => {
 	const wait_list = await DB.deleteClanByTime();

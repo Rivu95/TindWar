@@ -1,12 +1,11 @@
-const { Pool, Client } = require('pg');
-require('dotenv').config();
-const chalk = require('chalk');
+const { Pool } = require("pg");
+const chalk = require("chalk");
 
 const connectionString = process.env.DB_URL;
 const pool = new Pool({ connectionString });
 
-pool.on('error', (err, client) => {
-	console.error('Unexpected error on idle client', err);
+pool.on("error", (err, client) => {
+	console.error("Unexpected error on idle client", err);
 	process.exit(-1);
 });
 

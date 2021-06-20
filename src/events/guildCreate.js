@@ -1,6 +1,5 @@
 const Long = require("long");
 const Discord = require("discord.js");
-require('dotenv').config();
 
 module.exports.run = async (client, guild) => {
 	// defaut server settings

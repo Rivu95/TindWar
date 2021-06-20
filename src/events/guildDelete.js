@@ -1,6 +1,5 @@
-require('dotenv').config();
-const serverClanDB = require("../Database/serverClanData");
-const waitListDb = require("../Database/warMatch");
+const serverClanDB = require("../database/serverClanData");
+const waitListDb = require("../database/warMatch");
 
 module.exports.run = async (client, guild) => {
 	const log_channel = client.channels.cache.get(process.env.BOT_LOG);

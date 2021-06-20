@@ -1,39 +1,37 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 const cron = require("node-cron");
 const fs = require("fs");
 
-const client = new Discord.Client({ ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"] } });
+const client = new Discord.Client({
+	ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"] },
+	presence: { activity: { name: "slash commands", type: "LISTENING" } }
+});
 client.cooldowns = new Discord.Collection();
 
-client.once('ready', () => {
-	console.log('Tindwar is online!');
-	client.user.setActivity("slash commands", { type: "LISTENING" });
-});
-
 // ------------------------------- Interaction Handler -------------------------------//
-const Interaction = require("./Interactions/Interaction_create");
-client.ws.on('INTERACTION_CREATE', async (interaction) => {
-	Interaction.run(client, interaction);
+const interaction = require("./struct/interactions");
+client.ws.on("INTERACTION_CREATE", (res) => {
+	interaction.run(client, res);
 });
 
 client.interactions = new Discord.Collection();
-fs.readdir("./slash_commands", (err, files) => {
+fs.readdir("./src/interactions", (err, files) => {
 	if (err) return console.error(err);
 	files.forEach((file) => {
 		if (!file.endsWith(".js")) return;
-		const interaction = require(`./slash_commands/${file}`);
+		const interaction = require(`../src/interactions/${file}`);
 		console.log(`Attempting to load slashes ${interaction.name}`);
 		client.interactions.set(interaction.name, interaction);
 	});
 });
 
 // ------------------------------- Event Handler -------------------------------//
-fs.readdir("./events/", (err, files) => {
+fs.readdir("./src/events/", (err, files) => {
 	if (err) return console.error(err);
 	files.forEach((file) => {
-		const eventFunction = require(`./events/${file}`);
+		const eventFunction = require(`../src/events/${file}`);
 		if (eventFunction.disabled) return;
 
 		const event = eventFunction.event || file.split(".")[0];
@@ -54,8 +52,8 @@ fs.readdir("./events/", (err, files) => {
 
 // ------------------------------- Command Handler -------------------------------//
 client.commands = new Discord.Collection();
-const commandFolders = fs.readdirSync("./commands");
-
+const commandFolders = fs.readdirSync("./src/commands");
+console.log(commandFolders);
 for (const folder of commandFolders) {
 	const commandFiles = fs.readdirSync(`./commands/${folder}`)
 		.filter((file) => file.endsWith(".js"));
@@ -75,12 +73,12 @@ process.on("unhandledRejection", (error) => {
 client.login(process.env.BOT_TOKEN);
 
 // ------------------------------- CoC package -------------------------------//
-const coc = require("./utils/coc");
+const coc = require("../src/utils/coc");
 client.coc = coc.client;
 
 // ------------------------------- Cron Job Handler -------------------------------//
 // deleting waiting list
-const waitListEnd = require("./utils/searchEndScript");
+const waitListEnd = require("../src/utils/searchEndScript");
 cron.schedule("*/1 * * * *", async () => {
 	await waitListEnd.run(client);
 });
