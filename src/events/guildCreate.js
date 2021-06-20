@@ -3,13 +3,12 @@ const Discord = require("discord.js");
 
 module.exports.run = async (client, guild) => {
 	// defaut server settings
-	const log_channel = client.channels.cache.get(process.env.BOT_LOG);
+	const logChannel = client.channels.cache.get(process.env.BOT_LOG);
 
 	// finding a channel to send first message after join
 	const getDefaultChannel = (guild) => {
 		// Checking for a "general" channel
 		const generalChannel = guild.channels.cache.find((channel) => channel.name === "general");
-
 		if (generalChannel && generalChannel.permissionsFor(guild.client.user).has(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS"])) {
 			return generalChannel;
 		}
@@ -20,7 +19,6 @@ module.exports.run = async (client, guild) => {
 			.sort((a, b) => a.position - b.position || Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
 			.first();
 	};
-
 
 	const embed = new Discord.MessageEmbed()
 		.setColor("#ff77bc")
@@ -44,7 +42,7 @@ module.exports.run = async (client, guild) => {
 			},
 			{
 				name: "Support Server",
-				value: "https://discord.gg/uq7TEc79",
+				value: "https://discord.gg/Qtnj7ZEQ82",
 				inline: false
 			}
 		);
@@ -57,5 +55,5 @@ module.exports.run = async (client, guild) => {
 			console.log(`Could not send message to ${guild.name}`);
 		}
 	}
-	log_channel.send(`\`\`\`elm\nBot has joined ${guild.name} \nOwner ID: ${guild.ownerID}\nServer ID:${guild.id}\`\`\``);
+	return logChannel.send(`\`\`\`elm\nBot has joined ${guild.name} \nOwner ID: ${guild.ownerID}\nServer ID:${guild.id}\`\`\``);
 };
