@@ -16,52 +16,58 @@ module.exports.run = async (client, interaction, options, guild) => {
 	const wait_list = await warMatchDB.getAll();
 	const issue_server = await serverDB.getServer(interaction.guild_id);
 
-	// if the server isn't registered
-	if (!issue_server) {
-		const embed = new Discord.MessageEmbed()
-			.setColor("#ff0000")
-			.setDescription("You **have not** registered any clan or details for this server. First complete that using `register` slash command!");
+    // getting the guilds and representatives
+    const issue_guild = client.guilds.cache.get(interaction.guild_id);
+    const target_guild = client.guilds.cache.get(wait_list?.server_id);
+    const issuer_representative = await issue_guild?.members.fetch(issue_server.representative_id);
+    const target_representative = await target_guild?.members.fetch(wait_list?.representative_id);
 
-		return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
-			data: { embeds: [embed] }
-		});
-	}
+    // if the server isn't registered
+    if (!issue_server) {
+        const embed = new Discord.MessageEmbed()
+            .setColor("#ff0000")
+            .setDescription("You **have not** registered any clan or details for this server. First complete that using `register` slash command!");
 
-	// if there is a clan in wait list
-	if (wait_list) {
-		// if same server war search twice in a row
-		if (wait_list.server_id === interaction.guild_id) {
-			const embed = new Discord.MessageEmbed()
-				.setColor("#ff0000")
-				.setTitle("Still No match found!");
+        return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+            data: { embeds: [embed] }
+        });
+    }
 
-			return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
-				data: { embeds: [embed] }
-			});
-		}
+    // if there is a clan in wait list
+    if (wait_list) {
+        // if same server war search twice in a row
+        if (wait_list.server_id === interaction.guild_id) {
+            const embed = new Discord.MessageEmbed()
+                .setColor("#ff0000")
+                .setTitle("Still No match found!");
 
-		// message that will go in wait list clan's server
-		const target_channel = client.channels.cache.get(wait_list.channel_id);
-		const target_channel_embed = new Discord.MessageEmbed()
-			.setColor("#65ff01")
-			.setTitle("Match Found!")
-			.setDescription(`**Team - ${issue_server.team_name}**\n**Clan - [${issue_server.clan_name}-${issue_server.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
-			.addField("__Server Invite__", issue_server.server_invite)
-			.addField("__Representative__", issue_server.representative_id)
-			.addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
-			.setThumbnail()
-			.setTimestamp();
+            return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
+                data: { embeds: [embed] }
+            });
+        }
 
-		// message that will go in command issuer's channel
-		const issuer_embed = new Discord.MessageEmbed()
-			.setColor("#65ff01")
-			.setTitle("Match Found!")
-			.setDescription(`**Team - ${wait_list.team_name}**\n**Clan - [${wait_list.clan_name}-${wait_list.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
-			.addField("__Server Invite__", wait_list.server_invite)
-			.addField("__Representative__", wait_list.representative_id)
-			.addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
-			.setThumbnail()
-			.setTimestamp();
+        // message that will go in wait list clan's server
+        const target_channel = client.channels.cache.get(wait_list.channel_id);
+        const target_channel_embed = new Discord.MessageEmbed()
+            .setColor("#65ff01")
+            .setTitle("Match Found!")
+            .setDescription(`**Team - ${issue_server.team_name}**\n**Clan - [${issue_server.clan_name}-${issue_server.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(issue_server.clan_tag, true)})**`)
+            .addField("__Server Invite__", issue_server.server_invite)
+            .addField("__Representative__", issuer_representative.user.tag)
+            .addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
+            .setThumbnail()
+            .setTimestamp();
+
+        // message that will go in command issuer's channel
+        const issuer_embed = new Discord.MessageEmbed()
+            .setColor("#65ff01")
+            .setTitle("Match Found!")
+            .setDescription(`**Team - ${wait_list.team_name}**\n**Clan - [${wait_list.clan_name}-${wait_list.clan_tag}](https://link.clashofclans.com/en?action=OpenClanProfile&tag=${client.coc.parseTag(wait_list.clan_tag, true)})**`)
+            .addField("__Server Invite__", wait_list.server_invite)
+            .addField("__Representative__", target_representative.user.tag)
+            .addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
+            .setThumbnail()
+            .setTimestamp();
 
 		// sending the messages
 		target_channel.send(target_channel_embed);
