@@ -8,12 +8,14 @@
 		"lint": "eslint --fix --ext .js --ignore-path .gitignore .",
 		"test": "eslint --ext .js --ignore-path .gitignore .",
 		"start": "node src/index.js",
-		"build": "node scripts"
+		"build:commands": "node scripts/commands.js",
+		"create:tables": "node scripts/tables.js"
 	},
 	"author": "Rivu and bradders",
 	"license": "ISC",
 	"dependencies": {
 		"clashofclans.js": "^1.4.1",
+		"discord-api-types": "^0.18.1",
 		"discord.js": "^12.5.3",
 		"dotenv": "^10.0.0",
 		"long": "^4.0.0",

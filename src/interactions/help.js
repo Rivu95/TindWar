@@ -9,7 +9,6 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
-	
 	const embed = new Discord.MessageEmbed()
 		.setColor("#00ffff")
 		.setTitle("TindWar Bot Help")
@@ -17,9 +16,9 @@ module.exports.run = async (client, interaction, options, guild) => {
 		.setFooter("Support: https://discord.gg/Hw3efUPMjH")
 		.setTimestamp();
 
-		client.interactions.array().forEach(element => {
-			embed.addField(`__${element.name}__`, `\`\`\`\n${element.description}\`\`\``)
-		});
+	client.interactions.array().forEach((element) => {
+		embed.addField(`__${element.name}__`, `\`\`\`\n${element.description}\`\`\``);
+	});
 
 	return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 		data: { embeds: [embed] }
