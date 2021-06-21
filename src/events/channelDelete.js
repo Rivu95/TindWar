@@ -1,7 +1,7 @@
 module.exports.run = async (client, channel) => {
-	// Incomplete
+    // Incomplete
 
-	/* const clan = await clandb.getRegisteredChannel(channel.id);
+    /* const clan = await clandb.getRegisteredChannel(channel.id);
 	const server = await serverdb.getServer(channel.guild.id);
 	if (!clan) return;
 
