@@ -60,12 +60,14 @@ module.exports.getAll = async () => {
 // deleting once the clan is matched
 module.exports.deleteClanByServer = async (server_id) => {
 	const query_string = `DELETE FROM war_match
-	WHERE server_id = $1`;
+	WHERE server_id = $1
+	RETURNING *`;
 
 	const values = [server_id];
 
 	try {
 		const res = await pool.query(query_string, values);
+		return res.rows[0];
 	} catch (err) {
 		console.log(`${chalk.red("deleteClanByServer")} - ${err.message}`);
 	}

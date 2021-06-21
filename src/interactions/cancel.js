@@ -19,13 +19,16 @@ module.exports.run = async (client, interaction, options, guild) => {
     // if the server had no war search
     if (!server) {
         const embed = new Discord.MessageEmbed()
-        .setColor("#ff0000")
-        .setTitle("You were not searching For a war in the first place!")
+            .setColor("#ff0000")
+            .setTitle("You were not searching For a war in the first place!")
 
         return client.api.webhooks(client.user.id, interaction.token).messages['@original'].patch({
             data: { embeds: [embed] }
         });
     }
+
+    // Updating presence
+    client.user.setActivity(`slash commands`, { type: "LISTENING" });
 
     const embed = new Discord.MessageEmbed()
         .setColor("#ff0000")

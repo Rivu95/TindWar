@@ -1,6 +1,7 @@
 // 854964973469040640
 const Discord = require("discord.js");
 const statsDB = require("../database/botStats");
+const warMatchDB = require("../database/warMatch");
 
 module.exports = {
 	name: "stats",
@@ -11,11 +12,12 @@ module.exports = {
 
 module.exports.run = async (client, interaction, options, guild) => {
 	const stats = await statsDB.getStats();
+	const wait_list = await warMatchDB.getAll();
 
 	const embed = new Discord.MessageEmbed()
 		.setColor("#00ffff")
 		.setTitle("Bot Stats")
-		.setDescription(`**Teams Saved:** \`${stats.server_count}\`\n**Wars Matched:** \`${stats.war_matched}\``)
+		.setDescription(`**Servers: ${client.guilds.cache.size}\nTeams Saved: ${stats.server_count}\nWars Matched: ${stats.war_matched}\nWaiting For War: ${wait_list?.team_name ?? "None"}**`)
 		.addField("Matches Possible", "TH-14 5v5 ESL type")
 		.addField("Support Me (if you want)!", "I’m free to use but to keep me running please tip: [paypal](https://paypal.me/ogbradders)")
 		.setTimestamp();

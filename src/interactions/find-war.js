@@ -75,6 +75,8 @@ module.exports.run = async (client, interaction, options, guild) => {
 			data: { embeds: [issuer_embed] }
 		});
 
+        client.user.setActivity(`slash commands`, { type: "LISTENING" }); 
+
 		// deleting wait entry and upadating stats and history DB
 		await warMatchDB.deleteClanByServer(wait_list.server_id);
 		await statsDB.updateStats("war match");
@@ -84,6 +86,7 @@ module.exports.run = async (client, interaction, options, guild) => {
 	// saving the issue in wait list
 	else {
 		await warMatchDB.addClan(issue_server.clan_tag, `${options[0].value} hours`, options[0].value, issue_server.server_id);
+        client.user.setActivity(`1 team (${issue_server.team_name}) searching for war`, { type: "WATCHING" }); 
 
 		const embed = new Discord.MessageEmbed()
 			.setColor("#ffd700")
@@ -91,6 +94,6 @@ module.exports.run = async (client, interaction, options, guild) => {
 
 		return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
 			data: { embeds: [embed] }
-		});
+		});     
 	}
 };
