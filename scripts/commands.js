@@ -28,31 +28,31 @@ const commands = [
         options: [
             {
                 type: ApplicationCommandOptionType.STRING,
-                name: "team-name",
+                name: "team_name",
                 description: "Name of your team",
                 required: true
             },
             {
                 type: ApplicationCommandOptionType.STRING,
-                name: "clan-tag",
+                name: "clan_tag",
                 description: "clan tag of clan you will playing from",
                 required: true
             },
             {
                 type: ApplicationCommandOptionType.USER,
-                name: "server-representative",
+                name: "server_representative",
                 description: "Tag the person who will be the point of contact",
                 required: true
             },
             {
                 type: ApplicationCommandOptionType.CHANNEL,
-                name: "notification-channel",
+                name: "notification_channel",
                 description: "channel where bot will post about war matchups",
                 required: true
             },
             {
                 type: ApplicationCommandOptionType.STRING,
-                name: "server-invite",
+                name: "server_invite",
                 description: "server invite for negotiations, permanant invites are preferable"
             }
         ]
