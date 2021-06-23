@@ -86,7 +86,7 @@ module.exports.getServerByClan = async (clan_tag) => {
 
 // deleting server on server leave
 module.exports.deleteServer = async (server_id) => {
-    const query_string = `DELETE * FROM server_clan_registry
+    const query_string = `DELETE FROM server_clan_registry
 	WHERE server_id = $1`;
 
     const values = [server_id];
