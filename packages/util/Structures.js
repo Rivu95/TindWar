@@ -1,5 +1,5 @@
+const { Collection, Client } = require('discord.js');
 const { EventEmitter } = require('events');
-const { Collection } = require('discord.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -15,6 +15,9 @@ class Module {
 		this.id = id;
 		this.category = null;
 		this.filepath = null;
+		/**
+		 * @type {Client}
+		 */
 		this.client = null;
 		this.handler = null;
 		this.categoryID = category;
@@ -50,6 +53,7 @@ class Handler extends EventEmitter {
 		const filepaths = this.readDirectory(this.directory);
 		for (const filepath of filepaths) {
 			const Instance = require(path.resolve(filepath));
+			if (typeof Instance !== 'function') continue;
 			const instance = new Instance();
 			this.construct(instance);
 		}

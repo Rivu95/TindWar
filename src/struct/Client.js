@@ -1,7 +1,7 @@
 const { CommandHandler, ListenerHandler } = require('../../packages');
+const Settings = require('./Settings');
 const Discord = require('discord.js');
 const Db = require('./Database');
-const Settings = require('./Settings');
 const path = require('path');
 
 class Client extends Discord.Client {
@@ -19,6 +19,10 @@ class Client extends Discord.Client {
 	}
 
 	async _init() {
+		this.listenerHandler.setEmitters({
+			commandHandler: this.commandHandler,
+			listenerHandler: this.listenerHandler
+		});
 		this.commandHandler.load();
 		this.listenerHandler.load();
 

@@ -3,12 +3,12 @@ const { Command } = require('../../packages');
 class PingCommand extends Command {
 	constructor() {
 		super('ping', {
-			aliases: []
+			aliases: ['ping']
 		});
 	}
 
 	exec(message) {
-		return message.channel.send();
+		return message.channel.send('Pong!');
 	}
 }
 
