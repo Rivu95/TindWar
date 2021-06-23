@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const Client = require('./struct/Client');
 const client = new Client();
 
@@ -13,4 +15,4 @@ process.on('unhandledRejection', (error) => {
 	console.log(error);
 });
 
-client.start(process.env.TOKEN);
+client.start(process.env.BOT_TOKEN);

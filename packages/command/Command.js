@@ -1,10 +1,13 @@
-class Command {
+const Structures = require('../util/Structures');
+
+class Command extends Structures.Module {
 	constructor(id, {
 		aliases,
 		description = {},
 		ownerOnly = false,
 		category = 'default'
 	} = {}) {
+		super(id, { category });
 		this.id = id;
 		this.aliases = aliases;
 		this.description = description;
