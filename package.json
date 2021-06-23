@@ -7,9 +7,9 @@
 	"scripts": {
 		"lint": "eslint --fix --ext .js --ignore-path .gitignore .",
 		"test": "eslint --ext .js --ignore-path .gitignore .",
-		"start": "node src/index.js",
 		"build:commands": "node scripts/commands.js",
-		"create:tables": "node scripts/tables.js"
+		"create:tables": "node scripts/tables.js",
+		"start": "node src/index.js"
 	},
 	"author": "Rivu and bradders",
 	"license": "ISC",
@@ -25,5 +25,8 @@
 	"devDependencies": {
 		"eslint": "^7.29.0",
 		"eslint-config-aqua": "^9.0.2"
+	},
+	"engines": {
+		"node": ">=14.x"
 	}
 }

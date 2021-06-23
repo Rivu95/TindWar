@@ -13,4 +13,4 @@ process.on('unhandledRejection', (error) => {
 	console.log(error);
 });
 
-client.init(process.env.TOKEN);
+client.start(process.env.TOKEN);
