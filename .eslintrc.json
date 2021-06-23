@@ -1,0 +1,20 @@
+{
+	"extends": "aqua/node",
+	"parserOptions": {
+		"ecmaVersion": 2020
+	},
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"rules": {
+		"no-negated-condition": "off",
+		"prefer-destructuring": "off",
+		"quotes": ["error", "single"],
+		"comma-dangle": ["error", "never"],
+		"arrow-parens": ["error", "always"],
+		"no-unused-vars": "off",
+		"brace-style": "off",
+		"indent": ["error", "tab"]
+	}
+}

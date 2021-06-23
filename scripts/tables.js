@@ -1,9 +1,9 @@
-require("dotenv").config();
-const { Pool } = require("pg");
+require('dotenv').config();
+const { Pool } = require('pg');
 const pool = new Pool({ connectionString: process.env.DB_URL });
 
-pool.on("error", (error, client) => {
-    console.error("Unexpected error on idle client", error);
+pool.on('error', (error, client) => {
+    console.error('Unexpected error on idle client', error);
     process.exit(-1);
 });
 

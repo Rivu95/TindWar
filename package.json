@@ -16,7 +16,7 @@
 	"dependencies": {
 		"clashofclans.js": "^1.4.1",
 		"discord-api-types": "^0.18.1",
-		"discord.js": "^12.5.3",
+		"discord.js": "^13.0.0-dev.1816a93b1b1b2bae47e8651e76fa53699de8421d",
 		"dotenv": "^10.0.0",
 		"long": "^4.0.0",
 		"node-cron": "^3.0.0",
