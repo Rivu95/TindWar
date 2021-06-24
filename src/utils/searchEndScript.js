@@ -6,8 +6,6 @@ module.exports.run = async (client) => {
     const wait_list = await DB.deleteClanByTime();
 
     if (wait_list) {
-        // Updating presence
-        client.user.setActivity("slash commands", { type: "LISTENING" });
 
         const server = await serverClanDB.getServer(wait_list?.server_id);
         const channel = client.channels.cache.get(server.channel_id);

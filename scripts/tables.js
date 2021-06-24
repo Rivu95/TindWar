@@ -25,27 +25,29 @@ const run = async () => {
     );
 
     await pool.query(
-        `CREATE TABLE war_match (
-			clan_tag text NOT NULL,
-			search_time text NULL,
-			entry_time timestamp(0) NULL,
-			search_end_time timestamp(0) NULL,
-			server_id text NOT NULL,
-			CONSTRAINT war_match_pk PRIMARY KEY (server_id)
-		)`
+        `CREATE TABLE public.war_match (
+            clan_tag text NOT NULL,
+            search_time text NULL,
+            entry_time timestamp(0) NULL,
+            search_end_time timestamp(0) NULL,
+            server_id text NOT NULL,
+            format text NULL,
+            CONSTRAINT war_match_pk PRIMARY KEY (server_id)
+        )`
     );
 
     await pool.query(
-        `CREATE TABLE war_history (
-			server_1 text NULL,
-			server_2 text NULL,
-			matched_at timestamp(0) NULL,
-			winner text NULL,
-			clan_1 text NULL,
-			clan_2 text NULL,
-			match_id serial NOT NULL,
-			CONSTRAINT war_history_pk PRIMARY KEY (match_id)
-		)`
+        `CREATE TABLE public.war_history (
+            server_1 text NULL,
+            server_2 text NULL,
+            matched_at timestamp(0) NULL,
+            winner text NULL,
+            clan_1 text NULL,
+            clan_2 text NULL,
+            match_id serial NOT NULL,
+            format text NULL,
+            CONSTRAINT war_history_pk PRIMARY KEY (match_id)
+        )`
     );
 
     await pool.query(

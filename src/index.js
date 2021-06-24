@@ -36,9 +36,9 @@ fs.readdir("./src/events/", (err, files) => {
 
         const event = eventFunction.event || file.split(".")[0];
         const emitter =
-			(typeof eventFunction.emitter === "string"
-			    ? client[eventFunction.emitter]
-			    : eventFunction.emitter) || client;
+            (typeof eventFunction.emitter === "string"
+                ? client[eventFunction.emitter]
+                : eventFunction.emitter) || client;
         const once = eventFunction.once;
 
         try {
@@ -79,6 +79,8 @@ client.coc = coc.client;
 // ------------------------------- Cron Job Handler -------------------------------//
 // deleting waiting list
 const waitListEnd = require("../src/utils/searchEndScript");
+const warStatus = require("../src/utils/warStatus");
 cron.schedule("*/1 * * * *", async () => {
     await waitListEnd.run(client);
+    await warStatus.run(client);
 });

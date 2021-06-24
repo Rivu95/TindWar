@@ -26,9 +26,6 @@ module.exports.run = async (client, interaction, options, guild) => {
         });
     }
 
-    // Updating presence
-    client.user.setActivity("slash commands", { type: "LISTENING" });
-
     const embed = new Discord.MessageEmbed()
         .setColor("#ff0000")
         .setTitle("War Search cancelled")
