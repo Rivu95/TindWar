@@ -8,7 +8,8 @@ module.exports = {
 	name: "find-war",
 	description: "War Search Command, if a match is not found immidiately bot will place you in a waitlist",
 	helplink: "https://cdn.discordapp.com/attachments/695662581276475523/695662645541470208/clan.png",
-	guildOnly: true
+	guildOnly: true,
+	permissions: "MANAGE_ROLES"
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
@@ -16,12 +17,6 @@ module.exports.run = async (client, interaction, options, guild) => {
 	// getting clan from wait list and issue server details
 	const wait_list = await warMatchDB.getAll(format);
 	const issue_server = await serverDB.getServer(interaction.guild_id);
-
-	// getting the guilds and representatives
-	const issue_guild = client.guilds.cache.get(interaction.guild_id);
-	const target_guild = client.guilds.cache.get(wait_list?.server_id);
-	const issuer_representative = await issue_guild?.members.fetch(issue_server?.representative_id);
-	const target_representative = await target_guild?.members.fetch(wait_list?.representative_id);
 
 	// if the server isn't registered
 	if (!issue_server) {
@@ -33,6 +28,12 @@ module.exports.run = async (client, interaction, options, guild) => {
 			data: { embeds: [embed] }
 		});
 	}
+
+	// getting the guilds and representatives
+	const issue_guild = client.guilds.cache.get(interaction.guild_id);
+	const target_guild = client.guilds.cache.get(wait_list?.server_id);
+	const issuer_representative = await issue_guild?.members.fetch(issue_server?.representative_id);
+	const target_representative = await target_guild?.members.fetch(wait_list?.representative_id);
 
 	// if there is a clan in wait list
 	if (wait_list) {

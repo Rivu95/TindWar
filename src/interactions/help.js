@@ -12,7 +12,7 @@ module.exports.run = async (client, interaction, options, guild) => {
     const embed = new Discord.MessageEmbed()
         .setColor("#00ffff")
         .setTitle("TindWar Bot Help")
-        .setDescription("As of now this bot only has slash commnds. Also this bot is for matching up TH14 5v5 ESL type wars, other TH and negotiateable matches will come soon!")
+        .setDescription("As of now this bot only has slash commnds.\nWars Possible: TH 14 to TH9 5v5 wars\nMixed breakdown and negotiable matches will come soon!")
         .setFooter("Support: https://discord.gg/Hw3efUPMjH")
         .setTimestamp();
 

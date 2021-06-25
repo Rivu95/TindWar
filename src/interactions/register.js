@@ -8,7 +8,7 @@ module.exports = {
     description: "Register Your Team Name, Clan, Other details in the Bot database. This should be your first command!",
     helplink: "https://cdn.discordapp.com/attachments/695662581276475523/695662645541470208/clan.png",
     guildOnly: true,
-    permissions: "MANAGE_GUILD"
+    permissions: "MANAGE_ROLES"
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
