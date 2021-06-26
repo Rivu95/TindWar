@@ -39,21 +39,10 @@ const commands = [
 				required: true
 			},
 			{
-				type: ApplicationCommandOptionType.USER,
-				name: "server_representative",
-				description: "Tag the person who will be the point of contact",
-				required: true
-			},
-			{
 				type: ApplicationCommandOptionType.CHANNEL,
 				name: "notification_channel",
 				description: "channel where bot will post about war matchups",
 				required: true
-			},
-			{
-				type: ApplicationCommandOptionType.STRING,
-				name: "server_invite",
-				description: "server invite for negotiations, permanant invites are preferable"
 			}
 		]
 	},
@@ -126,7 +115,48 @@ const commands = [
 				]
 			}
 		]
+	},
+	{
+		name: "delete-rep",
+		description: "Add a representative to a clan",
+		options: [
+			{
+				type: ApplicationCommandOptionType.USER,
+				name: "discord_user",
+				description: "Mention the representative",
+				required: true
+			},
+			{
+				type: ApplicationCommandOptionType.STRING,
+				name: "clan_tag",
+				description: "the clan he/she will be representing",
+				required: true
+			}
+		]
+	},
+	{
+		name: "add-rep",
+		description: "Add a representative to a clan",
+		options: [
+			{
+				type: ApplicationCommandOptionType.USER,
+				name: "discord_user",
+				description: "Mention the representative",
+				required: true
+			},
+			{
+				type: ApplicationCommandOptionType.STRING,
+				name: "clan_tag",
+				description: "the clan he/she will be representing",
+				required: true
+			}
+		]
+	},
+	{
+		name: "view-team",
+		description: "view your team"
 	}
+
 ];
 
 if (process.env.NODE_ENV === "development") {
