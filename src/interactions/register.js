@@ -2,6 +2,7 @@
 const Discord = require("discord.js");
 const DB = require("../database/serverClanData");
 const statsDB = require("../database/botStats");
+const repDb = require("../database/clanRepData");
 
 module.exports = {
     name: "register",
@@ -12,17 +13,16 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
+
     const clan_tag = client.coc.parseTag(options[1].value, false);
-    const member = await guild.members.fetch(options[2].value);
-    const channel = client.channels.cache.get(options[3].value);
-    const server_invite = options[4]?.value ?? "Contact Representative";
+    const channel = client.channels.cache.get(options[2].value);
     const error_embed = new Discord.MessageEmbed().setColor("#ff0000");
 
     // checking if the clan is claimed by any other server
     const clan_claimed = await DB.getServerByClan(clan_tag);
-    if (clan_claimed && clan_claimed.server_id !== interaction.guild_id) {
+    if (clan_claimed) {
         error_embed
-            .setDescription("This **clan is claimed by another server**, if you still want to claim it contact Tindwar support with enough proof!");
+            .setDescription("This **clan is claimed by another team**, if you still want to claim it contact Tindwar support with enough proof!");
 
         return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
             data: { embeds: [error_embed] }
@@ -57,32 +57,15 @@ module.exports.run = async (client, interaction, options, guild) => {
         });
     }
 
-    // checking if this is actually an update
-    const server = await DB.getServer(interaction.guild_id);
-    if (server) {
-        const embed = new Discord.MessageEmbed()
-            .setColor("#65ff01")
-            .setTitle("Changing Previous Registration")
-            .setDescription(`**__Previously Registered__**\n\`\`\`\nClan: ${server.clan_name} - ${server.clan_tag}\nRepresentative: ${server.representative_id}\nServer Invite: ${server.server_invite}\`\`\``)
-            .addField("Current Registration", `**\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${server_invite}\`\`\`**`)
-            .setTimestamp();
-
-        await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, options[2].value, server_invite, interaction.member.user.id, options[3].value);
-        return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({
-            data: { embeds: [embed] }
-        });
-    }
-
     // for first time registration
 
-    await DB.addServer(interaction.guild_id, options[0].value, clan_tag, clan_data.name, options[2].value, server_invite, interaction.member.user.id, options[3].value);
+    await DB.addServer(options[0].value, clan_tag, clan_data.name, interaction.member.user.id, options[2].value);
     await statsDB.updateStats("server add");
 
     const embed = new Discord.MessageEmbed()
         .setColor("#65ff01")
         .setTitle("Successfully Registered")
-        .setDescription(`**__Current Registration__\n\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\nRepresentative: ${member.user.tag}\nServer Invite: ${server_invite}\`\`\`**`)
-        .setThumbnail()
+        .setDescription(`**__Current Registration__\n\`\`\`\nClan: ${clan_data.name} - ${clan_tag}\`\`\`**`)
         .setTimestamp();
 
     return client.api.webhooks(client.user.id, interaction.token).messages["@original"].patch({

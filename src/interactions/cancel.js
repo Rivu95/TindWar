@@ -2,6 +2,7 @@
 const Discord = require("discord.js");
 const serverDB = require("../database/serverClanData");             // server-clan database
 const warMatchDB = require("../database/warMatch");                 // wait list/ war-match Database
+const repDb = require("../database/clanRepData");
 
 module.exports = {
     name: "cancel-search",
@@ -11,12 +12,13 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
+
     // getting wait list and server details if any
-    const wait_list = await warMatchDB.deleteClanByServer(guild.id);
-    const server = await serverDB.getServer(wait_list?.server_id);
+    const clan = await repDb.getClan(interaction.member.user.id);
+    const wait_list = await warMatchDB.deleteByClan(clan.clan_tag);
 
     // if the server had no war search
-    if (!server) {
+    if (!wait_list) {
         const embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
             .setTitle("You were not searching For a war in the first place!");

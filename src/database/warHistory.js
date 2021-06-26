@@ -9,12 +9,12 @@ pool.on("error", (err, client) => {
 	process.exit(-1);
 });
 
-module.exports.addWar = async (server_1, server_2, clan_1, clan_2, format) => {
+module.exports.addWar = async (clan_1, clan_2, format) => {
 	const query_string = `INSERT INTO war_history
-	(server_1,  server_2, matched_at, clan_1,  clan_2, format)
-	VALUES($1, $2, NOW(), $3, $4, $5)`;
+	( matched_at, clan_1,  clan_2, format)
+	VALUES(NOW(), $1, $2, $3)`;
 
-	const values = [server_1, server_2, clan_1, clan_2, format];
+	const values = [clan_1, clan_2, format];
 
 	try {
 		const res = await pool.query(query_string, values);
@@ -25,8 +25,8 @@ module.exports.addWar = async (server_1, server_2, clan_1, clan_2, format) => {
 
 module.exports.getWar = async (server_id) => {
 	const query_string = `SELECT * FROM war_history
-	WHERE server_1 = $1
-	OR server_2 = $1`;
+	WHERE clan_1 = $1
+	OR clan_2 = $1`;
 
 	const values = [server_id];
 

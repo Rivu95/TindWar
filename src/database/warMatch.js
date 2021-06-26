@@ -10,12 +10,12 @@ pool.on("error", (err, client) => {
 });
 
 // Adding clan to wait period if no match found
-module.exports.addClan = async (clan_tag, search_time, interval, server_id, format) => {
+module.exports.addClan = async (clan_tag, search_time, interval, format) => {
 	const query_string = `INSERT INTO war_match
-    (clan_tag,  search_time,  entry_time,  search_end_time, server_id, format)
-    VALUES ($1, $2, NOW(), NOW() + interval '${interval} hour', $3, $4)`;
+    (clan_tag,  search_time,  entry_time,  search_end_time, format)
+    VALUES ($1, $2, NOW(), NOW() + interval '${interval} hour', $3)`;
 
-	const values = [clan_tag, search_time, server_id, format];
+	const values = [clan_tag, search_time, format];
 
 	try {
 		const res = await pool.query(query_string, values);
@@ -75,12 +75,12 @@ module.exports.getAll = async (format) => {
 };
 
 // deleting once the clan is matched
-module.exports.deleteClanByServer = async (server_id) => {
+module.exports.deleteByClan = async (clan_tag) => {
 	const query_string = `DELETE FROM war_match
-    WHERE server_id = $1
+    WHERE clan_tag = $1
     RETURNING *`;
 
-	const values = [server_id];
+	const values = [clan_tag];
 
 	try {
 		const res = await pool.query(query_string, values);

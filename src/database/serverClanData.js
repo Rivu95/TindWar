@@ -10,60 +10,24 @@ pool.on("error", (err, client) => {
 });
 
 // adding and updating new Servers
-module.exports.addServer = async (server_id, team_name, clan_tag, clan_name, representative, seerver_invite, regisered_by, channel_id) => {
+module.exports.addServer = async (team_name, clan_tag, clan_name, regisered_by, channel_id) => {
 	const query_string = `INSERT INTO server_clan_registry
-	(server_id,  team_name,  clan_tag,  clan_name,  representative_id,  server_invite,  registered_by,  register_time, channel_id)
-	VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), $8)
-    ON CONFLICT (server_id)
+	(team_name,  clan_tag,  clan_name, registered_by,  register_time, channel_id)
+	VALUES ($1, $2, $3, $4, NOW(), $5)
+    ON CONFLICT (clan_tag)
 	DO UPDATE SET
-	team_name = $2,
-    clan_tag = $3,
-    clan_name = $4,
-    representative_id = $5,
-    server_invite = $6,
-    registered_by = $7,
+	team_name = $1,
+    clan_name = $3,
+    registered_by = $4,
     register_time = NOW(),
-    channel_id = $8`;
+    channel_id = $5`;
 
-	const values = [server_id, team_name, clan_tag, clan_name, representative, seerver_invite, regisered_by, channel_id];
+	const values = [team_name, clan_tag, clan_name, regisered_by, channel_id];
 
 	try {
 		const res = await pool.query(query_string, values);
 	} catch (err) {
 		console.log(`${chalk.red("addServer")} - ${err.message}`);
-		return false;
-	}
-};
-
-// for clan change by Admin
-module.exports.updateServer = async (server_id, clan_tag, clan_name) => {
-	const query_string = `UPDATE server_clan_registry
-	SET clan_tag = $2,
-        clan_name = $3,
-    WHERE server_id = $1`;
-
-	const values = [server_id, clan_tag, clan_name];
-
-	try {
-		const res = await pool.query(query_string, values);
-	} catch (err) {
-		console.log(`${chalk.red("updateServer")} - ${err.message}`);
-		return false;
-	}
-};
-
-// getting details of a server
-module.exports.getServer = async (server_id) => {
-	const query_string = `SELECT * FROM server_clan_registry
-	WHERE server_id = $1`;
-
-	const values = [server_id];
-
-	try {
-		const res = await pool.query(query_string, values);
-		return res.rows[0];
-	} catch (err) {
-		console.log(`${chalk.red("getServer")} - ${err.message}`);
 		return false;
 	}
 };
@@ -85,9 +49,9 @@ module.exports.getServerByClan = async (clan_tag) => {
 };
 
 // deleting server on server leave
-module.exports.deleteServer = async (server_id) => {
+module.exports.deleteClan = async (clan_tag) => {
 	const query_string = `DELETE FROM server_clan_registry
-	WHERE server_id = $1`;
+	WHERE clan_tag = $1`;
 
 	const values = [server_id];
 
