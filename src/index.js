@@ -51,7 +51,7 @@ fs.readdir("./src/events/", (err, files) => {
 });
 
 // ------------------------------- Command Handler -------------------------------//
-client.commands = new Discord.Collection();
+/* client.commands = new Discord.Collection();
 const commandFolders = fs.readdirSync("./src/commands");
 console.log(commandFolders);
 for (const folder of commandFolders) {
@@ -63,6 +63,7 @@ for (const folder of commandFolders) {
         client.commands.set(command.name, command);
     }
 }
+*/
 
 // ------------------------------- Error Logging -------------------------------//
 process.on("unhandledRejection", (error) => {
