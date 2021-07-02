@@ -10,7 +10,6 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
-
     const hasClan = await repDb.getClan(interaction.member.user.id);
 
     // if the user has no team

@@ -11,7 +11,6 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
-
     const hasClan = await repDb.getClan(options[0].value);
 
     // if given clan is not in server_clan_registry

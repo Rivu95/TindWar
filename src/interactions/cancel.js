@@ -12,7 +12,6 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
-
     // getting wait list and server details if any
     const clan = await repDb.getClan(interaction.member.user.id);
     const wait_list = await warMatchDB.deleteByClan(clan.clan_tag);

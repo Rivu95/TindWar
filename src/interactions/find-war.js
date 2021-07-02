@@ -12,7 +12,6 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
-
 	const format = options[1].value;
 	// getting clan from wait list and issue server details
 	const wait_list = await warMatchDB.getAll(format);

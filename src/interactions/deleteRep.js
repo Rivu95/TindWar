@@ -10,7 +10,6 @@ module.exports = {
 };
 
 module.exports.run = async (client, interaction, options, guild) => {
-
     const hasClan = await repDb.deleteRep(options[0].value, client.coc.parseTag(options[1].value, false));
     if (!hasClan) {
         const embed = new Discord.MessageEmbed()
