@@ -24,7 +24,7 @@ const commands = [
 	},
 	{
 		name: "register",
-		description: "register your server for friendly matchups",
+		description: "Register your server for friendly matchups",
 		options: [
 			{
 				type: ApplicationCommandOptionType.STRING,
@@ -41,7 +41,7 @@ const commands = [
 			{
 				type: ApplicationCommandOptionType.CHANNEL,
 				name: "notification_channel",
-				description: "channel where bot will post about war matchups",
+				description: "Channel where bot will post about war matchups",
 				required: true
 			}
 		]
@@ -129,7 +129,7 @@ const commands = [
 			{
 				type: ApplicationCommandOptionType.STRING,
 				name: "clan_tag",
-				description: "the clan he/she will be representing",
+				description: "The clan he/she will be representing",
 				required: true
 			}
 		]
@@ -147,16 +147,19 @@ const commands = [
 			{
 				type: ApplicationCommandOptionType.STRING,
 				name: "clan_tag",
-				description: "the clan he/she will be representing",
+				description: "The clan he/she will be representing",
 				required: true
 			}
 		]
 	},
 	{
 		name: "view-team",
-		description: "view your team"
+		description: "View your team"
+	},
+	{
+		name: "support",
+		description: "Get support server invite link."
 	}
-
 ];
 
 if (process.env.NODE_ENV === "development") {
