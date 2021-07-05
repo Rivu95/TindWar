@@ -4,7 +4,7 @@ const repDb = require("../database/clanRepData");
 
 module.exports = {
     name: "delete-rep",
-    description: "delete a representative from a clan",
+    description: "Delete a representative from a clan",
     helplink: "https://cdn.discordapp.com/attachments/695662581276475523/695662645541470208/clan.png",
     guildOnly: true
 };
