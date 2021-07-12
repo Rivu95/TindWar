@@ -20,7 +20,7 @@ module.exports.run = async (client, interaction, options, guild) => {
 
     // checking if the clan is claimed by any other server
     const clan_claimed = await DB.getServerByClan(clan_tag);
-    if (clan_claimed) {
+    if (clan_claimed && !(clan_claimed.registered_by === interaction.member.user.id && clan_claimed.channel_id !== channel.id)) {
         error_embed
             .setDescription("This **clan is claimed by another team**, if you still want to claim it contact Tindwar support with enough proof!");
 
